@@ -2,22 +2,33 @@ import java.util.Enumeration;
 
 public class TextStatement extends Statement {
 
-    public String value(Customer aCustomer) {
+   private String getResultName(String name){
+      return "Rental Record for " + name + "\n";
+   }
+
+   private String getResultMovieData(String movieTitle, String charge){
+      return "\t" + movieTitle + "\t" + charge + "\n";
+   }
+
+   private String getResultOwed(String totalCharge){
+      return "Amount owed is " + totalCharge + "\n";
+   }
+
+   private String getResultEarned(String totalFrequentRenterPoints){
+      return "You earned " + totalFrequentRenterPoints + " frequent renter points";
+   }
+
+   public String value(Customer aCustomer) {
       Enumeration<Rental> rentals = aCustomer.getRentals();
-      String result = "Rental Record for " + aCustomer.getName() +
-      "\n";
+      String result = getResultName(aCustomer.getName());
       while (rentals.hasMoreElements()) {
          Rental each = (Rental) rentals.nextElement();
-         //show figures for this rental
-         result += "\t" + each.getMovie().getTitle()+ "\t" +
-         String.valueOf(each.getCharge()) + "\n";
+         //show figures for each rental
+         result += getResultMovieData(each.getMovie().getTitle(),String.valueOf(each.getCharge()));
       }
       //add footer lines
-      result += "Amount owed is " +
-      String.valueOf(aCustomer.getTotalCharge()) + "\n";
-      result += "You earned " +
-      String.valueOf(aCustomer.getTotalFrequentRenterPoints()) +
-      " frequent renter points";
+      result += getResultOwed(String.valueOf(aCustomer.getTotalCharge()));
+      result += getResultEarned(String.valueOf(aCustomer.getTotalFrequentRenterPoints()));
       return result;
    }
 
